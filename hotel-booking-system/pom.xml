@@ -5,6 +5,7 @@
 	<artifactId>hotel-booking-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
