@@ -11,7 +11,7 @@
 <img src="<c:url value="/resources/img/pic.png" />" />
 
 <h2>Student Information</h2>
-<form:form method="POST" action="/spring-mvc-demo/student/addStudent" commandName="s">
+<form:form method="POST" action="/hotel-booking-system/student/addStudent" commandName="s">
    <table>
     <tr>
         <td><form:label path="name">Name</form:label></td>

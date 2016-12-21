@@ -14,12 +14,17 @@ public class Room {
 	@Column
 	@GeneratedValue
 	private long roomId;
+	
 	@ManyToOne
 	@JoinColumn(name = "bookingId")
 	private Booking booking;
+	
 	@Column
 	private String roomType;
-	// private Hotel hotel;
+	
+	@ManyToOne
+	@JoinColumn(name="hotelId")
+	private Hotel hotel;
 
 	public long getRoomId() {
 		return roomId;

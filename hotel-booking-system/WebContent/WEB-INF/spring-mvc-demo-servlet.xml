@@ -55,10 +55,11 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 			<list>
-				<value>com.hname.model.Room</value>
 				<value>com.hname.model.Booking</value>
-				<!-- <value>com.hname.model.Hotel</value> -->
-				<value>com.hname.model.Student</value>
+				<value>com.hname.model.City</value>
+				<value>com.hname.model.Hotel</value>
+				<value>com.hname.model.Room</value>
+				<!-- <value>com.hname.model.Student</value> -->
 			</list>
 		</property>
 		<property name="hibernateProperties">
