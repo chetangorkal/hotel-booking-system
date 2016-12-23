@@ -9,7 +9,7 @@ import com.hname.model.Room;
 
 public interface BookingService {
 
-	String bookRoom(Booking booking);
+	long bookRoom(Booking booking);
 
 	List<City> getCities();
 

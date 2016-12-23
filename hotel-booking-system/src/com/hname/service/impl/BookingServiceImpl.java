@@ -26,7 +26,7 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public String bookRoom(Booking booking) {
+	public long bookRoom(Booking booking) {
 		// TODO Auto-generated method stub
 		return bookingDao.bookRoom(booking);
 	}
@@ -43,14 +43,20 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public List<Hotel> getHotelsByCityId(long cityId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Hotel> hotels = new ArrayList<>();
+		hotels.add(new Hotel(1,"hotel1Name","hotel1Address","hotel1Phone"));
+		hotels.add(new Hotel(2,"hotel2Name","hotel2Address","hotel2Phone"));
+		hotels.add(new Hotel(3,"hotel3Name","hotel3Address","hotel3Phone"));
+		hotels.add(new Hotel(4,"hotel4Name","hotel4Address","hotel4Phone"));
+		hotels.add(new Hotel(5,"hotel5Name","hotel5Address","hotel5Phone"));
+		hotels.add(new Hotel(6,"hotel6Name","hotel6Address","hotel6Phone"));
+		return hotels;
 	}
 
 	@Override
 	public List<Room> getRoomsByHotelId(long hotelId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return bookingDao.getRoomsByHotelId(hotelId);
 	}
 
 }

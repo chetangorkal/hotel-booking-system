@@ -14,15 +14,37 @@ public class Room {
 	@Column
 	@GeneratedValue
 	private long roomId;
-	
-/*	@ManyToOne
-	private Booking booking;
-*/	
+
+	public Room() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Room(long roomId, String roomType, Hotel hotel) {
+		super();
+		this.roomId = roomId;
+		this.roomType = roomType;
+		this.hotel = hotel;
+	}
+
+	public Room(long roomId, String roomType) {
+		super();
+		this.roomId = roomId;
+		this.roomType = roomType;
+	}
+
+	public Room(long roomId) {
+		super();
+		this.roomId = roomId;
+	}
+
+	/*
+	 * @ManyToOne private Booking booking;
+	 */
 	@Column
 	private String roomType;
-	
+
 	@ManyToOne
-	@JoinColumn(name="hotelId")
+	@JoinColumn(name = "hotelId")
 	private Hotel hotel;
 
 	public long getRoomId() {
@@ -33,14 +55,11 @@ public class Room {
 		this.roomId = roomId;
 	}
 
-/*	public Booking getBooking() {
-		return booking;
-	}
-
-	public void setBooking(Booking booking) {
-		this.booking = booking;
-	}
-*/
+	/*
+	 * public Booking getBooking() { return booking; }
+	 * 
+	 * public void setBooking(Booking booking) { this.booking = booking; }
+	 */
 	public String getRoomType() {
 		return roomType;
 	}
