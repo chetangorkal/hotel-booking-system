@@ -18,91 +18,39 @@ hotelBookingApp.controller('HomeController', function($scope) {
 
 hotelBookingApp.controller('BookingController', function($scope, $http) {
 	$scope.info = "bookingInformation";
-	
-	$scope.getHotels = function(){
+
+	$http({
+		method : 'GET',
+		url : '/hotel-booking-system/booking'
+	}).success(function(data, status, headers, config) {
+		$scope.cities = data;
+		$scope.selectedCity = $scope.cities[0];
+	}).error(function(data, status, headers, config) {
+	});
+
+	$scope.getHotelsByCity = function() {
 		$http({
 			method : 'GET',
-			url : '/hotel-booking-system/cities'
+			url : '/hotel-booking-system/city/' + $scope.selectedCity.cityId,
 		}).success(function(data, status, headers, config) {
-			$scope.info = data;
+			$scope.hotels = data;
+			$scope.selectedHotel = $scope.hotels[0];
 		}).error(function(data, status, headers, config) {
 		});
-	}
-
-	$scope.getHotelByCity = function() {
-		$scope.hotels = [ {
-			"hotelId" : 1,
-			"name" : "hotel1Name",
-			"address" : "hotel1Address",
-			"phone" : "hotel1Phone"
-		}, {
-			"hotelId" : 2,
-			"name" : "hotel2Name",
-			"address" : "hotel2Address",
-			"phone" : "hotel2Phone"
-		}, {
-			"hotelId" : 3,
-			"name" : "hotel3Name",
-			"address" : "hotel3Address",
-			"phone" : "hotel3Phone"
-		}, {
-			"hotelId" : 4,
-			"name" : "hotel4Name",
-			"address" : "hotel4Address",
-			"phone" : "hotel4Phone"
-		}, {
-			"hotelId" : 5,
-			"name" : "hotel5Name",
-			"address" : "hotel5Address",
-			"phone" : "hotel5Phone"
-		}, {
-			"hotelId" : 6,
-			"name" : "hotel6Name",
-			"address" : "hotel6Address",
-			"phone" : "hotel6Phone"
-		} ];
-
-		$scope.selectedHotel = {
-			"hotelId" : 1,
-			"name" : "hotel1Name",
-			"address" : "hotel1Address",
-			"phone" : "hotel1Phone"
-		};
 	};
 
 	$scope.getRoomsByHotel = function() {
-		$scope.rooms = [ {
-			"roomId" : 1,
-			"roomType" : "AC"
-		}, {
-			"roomId" : 2,
-			"roomType" : "Non-AC"
-		}, {
-			"roomId" : 3,
-			"roomType" : "AC"
-		} ];
-
-		$scope.selectedRoom = {
-			"roomId" : 1,
-			"roomType" : "AC"
-		};
+		$http(
+				{
+					method : 'GET',
+					url : '/hotel-booking-system/hotel/'
+							+ $scope.selectedHotel.hotelId,
+				}).success(function(data, status, headers, config) {
+			$scope.rooms = data;
+			$scope.selectedRoom = $scope.rooms[0];
+		}).error(function(data, status, headers, config) {
+		});
 	};
-
-	$scope.selectedCity = {
-		"cityId" : 1,
-		"name" : "Bengaluru"
-	};
-
-	$scope.cities = [ {
-		"cityId" : 1,
-		"name" : "Bengaluru"
-	}, {
-		"cityId" : 2,
-		"name" : "Mysore"
-	}, {
-		"cityId" : 3,
-		"name" : "Hubli"
-	} ];
 
 	$scope.checkInDate = new Date();
 	$scope.checkInDate.setHours(0, 0, 0, 0);
@@ -114,6 +62,22 @@ hotelBookingApp.controller('BookingController', function($scope, $http) {
 	};
 
 	$scope.submitBookingForm = function() {
+		$http({
+			method : 'POST',
+			/*
+			 * url : '/hotel-booking-system/' + $scope.selectedCity.cityId + '/' +
+			 * $scope.selectedHotel.HotelId,
+			 */
+			url : '/hotel-booking-system/bookRoom/',
+			params : {
+				roomId : $scope.selectedRoom.roomId
+			}
+		}).success(function(data, status, headers, config) {
+			$scope.bookingId = data;
+			
+		}).error(function(data, status, headers, config) {
+		});
+
 		$scope.submitSuccessMessage = "Form submitted successfully";
 	}
 });
