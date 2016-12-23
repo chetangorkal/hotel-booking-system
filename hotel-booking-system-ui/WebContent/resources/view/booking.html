@@ -1,0 +1,35 @@
+<div>
+	<div>
+		Choose your destination <select ng-change="getHotelByCity()"
+			ng-options="city as city.name for city in cities track by city.cityId"
+			ng-model="selectedCity"></select>
+		<div>
+			Choose your destination <select ng-change="getHotels"
+				ng-options="city as city.name for city in cities track by city.cityId"
+				ng-model="selectedCity"></select>
+		</div>
+		<div ng-show='hotels'>
+			Hotel available in the city <select ng-change="getRoomsByHotel()"
+				ng-options="hotel as hotel.name for hotel in hotels track by hote.hotelId"
+				ng-model="selectedHotel"></select>
+		</div>
+		<div ng-show='rooms'>
+			Select a room <select
+				ng-options="room as room.roomId for room in rooms track by room.roomId"
+				ng-model="selectedRoom"></select>
+		</div>
+		<div>
+			Check-in date<input type="date" name="checkInDate"
+				ng-model="checkInDate">
+		</div>
+		<div>
+			Check-out date<input type="date" name="checkOutDate"
+				ng-model="checkOutDate" ng-change='validateCheckOutDate()'><span
+				ng-show='errorMessage'>{{errorMessage}}</span>
+		</div>
+		<div>
+			<input type="submit" ng-click="submitBookingForm()">
+		</div>
+		<div ng-show='submitSuccessMessage'>Booking is confirmed
+			{{submitSuccessMessage}}</div>
+	</div>
