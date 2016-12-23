@@ -10,17 +10,29 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class City {
-	
+
 	@Id
 	@Column
 	@GeneratedValue
 	private long cityId;
-	
+
 	@Column
 	private String name;
-	
-	@OneToMany(mappedBy="city")
+
+	@OneToMany(mappedBy = "city")
 	private Set<Hotel> hotels;
+
+	public City() {
+	}
+
+	public City(int i) {
+		this.cityId = i;
+	}
+
+	public City(int i, String string) {
+		this.cityId = i;
+		this.name = string;
+	}
 
 	public long getCityId() {
 		return cityId;
@@ -45,8 +57,5 @@ public class City {
 	public void setHotels(Set<Hotel> hotels) {
 		this.hotels = hotels;
 	}
-	
-	
-	
 
 }

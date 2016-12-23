@@ -15,10 +15,9 @@ public class Room {
 	@GeneratedValue
 	private long roomId;
 	
-	@ManyToOne
-	@JoinColumn(name = "bookingId")
+/*	@ManyToOne
 	private Booking booking;
-	
+*/	
 	@Column
 	private String roomType;
 	
@@ -34,14 +33,14 @@ public class Room {
 		this.roomId = roomId;
 	}
 
-	public Booking getBooking() {
+/*	public Booking getBooking() {
 		return booking;
 	}
 
 	public void setBooking(Booking booking) {
 		this.booking = booking;
 	}
-
+*/
 	public String getRoomType() {
 		return roomType;
 	}

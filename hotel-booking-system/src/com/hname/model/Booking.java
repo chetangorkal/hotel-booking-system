@@ -2,11 +2,13 @@ package com.hname.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,16 +18,17 @@ public class Booking {
 	@Column
 	@GeneratedValue
 	private long bookingId;
-	
+
 	@Column
 	private String name;
 
 	@Column
 	private int age;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "booking")
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "booked_room", joinColumns = { @JoinColumn(name = "bookingId") }, inverseJoinColumns = {
+			@JoinColumn(name = "roomId") })
 	private Set<Room> rooms;
-	// private Hotel hotel;
 
 	public long getBookingId() {
 		return bookingId;
@@ -59,10 +62,4 @@ public class Booking {
 		this.age = age;
 	}
 
-	
-	/*
-	 * @OneToMany(mappedBy="booking") public Hotel getHotel() { return hotel; }
-	 * 
-	 * public void setHotel(Hotel hotel) { this.hotel = hotel; }
-	 */
 }

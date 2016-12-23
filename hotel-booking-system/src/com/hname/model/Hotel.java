@@ -20,16 +20,25 @@ public class Hotel {
 	private String name;
 	private String address;
 	private String phone;
-	
+
 	@ManyToOne
-	@JoinColumn(name="cityId")
+	@JoinColumn(name = "cityId")
 	private City city;
-	
-	
-	@OneToMany(mappedBy="hotel")
+
+	@OneToMany(mappedBy = "hotel")
 	private Set<Room> rooms;
-	
-//	private Booking booking;
+
+	// private Booking booking;
+
+	public Hotel() {
+	}
+
+	public Hotel(int hotelId, String name, String address, String phone) {
+		this.hotelId = hotelId;
+		this.name = name;
+		this.address = address;
+		this.phone = phone;
+	}
 
 	public long getHotelId() {
 		return hotelId;
@@ -62,7 +71,5 @@ public class Hotel {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-	
 
 }
