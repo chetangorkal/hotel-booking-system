@@ -16,7 +16,7 @@ hotelBookingApp.controller('HomeController', function($scope) {
 	$scope.info = "information";
 });
 
-hotelBookingApp.controller('BookingController', function($scope, $http) {
+hotelBookingApp.controller('BookingController', function($scope, $http, $location) {
 	$scope.info = "bookingInformation";
 
 	$http({
@@ -55,6 +55,9 @@ hotelBookingApp.controller('BookingController', function($scope, $http) {
 	$scope.checkInDate = new Date();
 	$scope.checkInDate.setHours(0, 0, 0, 0);
 
+	$scope.cancelBooking = function(){
+		$location.path('/home');
+	}
 	$scope.validateCheckOutDate = function() {
 		if ($scope.checkOutDate < $scope.checkInDate) {
 			$scope.errorMessage = 'Error';
