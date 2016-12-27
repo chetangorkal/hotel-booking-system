@@ -45,7 +45,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/TestDB" />
+		<property name="url" value="jdbc:mysql://localhost:3306/HotelBookingSystem" />
 		<property name="username" value="root" />
 		<property name="password" value="" />
 	</bean>
@@ -59,6 +59,7 @@
 				<value>com.hname.model.City</value>
 				<value>com.hname.model.Hotel</value>
 				<value>com.hname.model.Room</value>
+				<value>com.hname.model.RoomBooking</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

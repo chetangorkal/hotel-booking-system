@@ -2,13 +2,10 @@ package com.hname.model;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,16 +16,21 @@ public class Booking {
 	@GeneratedValue
 	private long bookingId;
 
-	@Column
-	private String name;
+	@OneToMany(mappedBy="booking")
+	private Set<RoomBooking> roomBookings;
 
-	@Column
-	private int age;
+	private int noOfRooms;
+	
+	private boolean status;
+	
 
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "booked_room", joinColumns = { @JoinColumn(name = "bookingId") }, inverseJoinColumns = {
-			@JoinColumn(name = "roomId") })
-	private Set<Room> rooms;
+	public boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	public long getBookingId() {
 		return bookingId;
@@ -38,28 +40,20 @@ public class Booking {
 		this.bookingId = bookingId;
 	}
 
-	public Set<Room> getRooms() {
-		return rooms;
+	public Set<RoomBooking> getRoomBookings() {
+		return roomBookings;
 	}
 
-	public void setRooms(Set<Room> rooms) {
-		this.rooms = rooms;
+	public void setRoomBookings(Set<RoomBooking> roomBookings) {
+		this.roomBookings = roomBookings;
 	}
 
-	public String getName() {
-		return name;
+	public int getNoOfRooms() {
+		return noOfRooms;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
+	public void setNoOfRooms(int noOfRooms) {
+		this.noOfRooms = noOfRooms;
 	}
 
 }

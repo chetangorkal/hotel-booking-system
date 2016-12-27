@@ -20,6 +20,7 @@ public class Hotel {
 	private String name;
 	private String address;
 	private String phone;
+	private int availableRoomsCount;
 
 	@ManyToOne
 	@JoinColumn(name = "cityId")
@@ -70,6 +71,14 @@ public class Hotel {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public int getAvailableRoomsCount() {
+		return availableRoomsCount;
+	}
+
+	public void setAvailableRoomsCount(int availableRoomsCount) {
+		this.availableRoomsCount = availableRoomsCount;
 	}
 
 }

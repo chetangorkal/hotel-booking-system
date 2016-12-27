@@ -33,10 +33,13 @@ public class TestMain {
 		System.out.println(gson.toJson(hotels));
 
 		List<Room> rooms = new ArrayList<>();
-		rooms.add(new Room(1, "Non-AC"));
+		/*rooms.add(new Room(1, "Non-AC"));
 		rooms.add(new Room(2, "AC"));
-		rooms.add(new Room(3, "Non-AC"));
+		rooms.add(new Room(3, "Non-AC"));*/
 		System.out.println(gson.toJson(rooms));
+		
+		for (int i=1;i<31;i++)
+			System.out.println(i);
 
 	}
 

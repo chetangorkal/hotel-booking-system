@@ -14,34 +14,34 @@
 							class='col-lg-2' ng-change="getHotelsByCity()"
 							class="form-control"
 							ng-options="city as city.name for city in cities track by city.cityId"
-							ng-model="selectedCity"></select><span class='col-lg-6'></span>
+							ng-model="bookingDto.selectedCity"></select><span
+							class='col-lg-6'></span>
 					</div>
 
 					<div class="form-group well-lg">
-						<label class='col-lg-4' for="selectedHotel">Hotel
+						<label class='col-lg-4' for="bookingDto.selectedHotel">Hotel
 							available in the city </label><select class='col-lg-2'
-							ng-change="getRoomsByHotel()"
 							ng-options="hotel as hotel.name for hotel in hotels track by hotel.hotelId"
-							ng-model="selectedHotel"></select>
+							ng-model="bookingDto.selectedHotel"></select>
 					</div>
 
 					<div class="form-group well-lg">
-						<label class='col-lg-4' for="selectedRoom">Select a room</label> <select
-							class='col-lg-2'
-							ng-options="room as room.roomId for room in rooms track by room.roomId"
-							ng-model="selectedRoom"></select>
+						<label class='col-lg-4' for="noOfRooms">Number of rooms to
+							book</label> <input type="number" class='col-lg-2' name="noOfRooms"
+							ng-model="bookingDto.noOfRooms">
 					</div>
 
 
 					<div class="form-group well-lg">
 						<label class='col-lg-4' for="checkInDate">Check-in date</label><input
 							type="date" class='col-lg-2' name="checkInDate"
-							ng-model="checkInDate">
+							ng-model="bookingDto.checkInDate">
 					</div>
 					<div class="form-group well-lg">
 						<label class='col-lg-4' for="checkOutDate">Check-out date</label><input
 							type="date" class='col-lg-2' name="checkOutDate"
-							ng-model="checkOutDate" ng-change='validateCheckOutDate()'><span
+							ng-model="bookingDto.checkOutDate"
+							ng-change='validateCheckOutDate()'><span
 							ng-show='errorMessage'>{{errorMessage}}</span>
 					</div>
 
@@ -50,21 +50,10 @@
 							ng-click="cancelBooking()" class="btn btn-default">Cancel</button>
 						<button class='col-lg-offset-1 col-lg-2' type="submit"
 							ng-click="submitBookingForm()" class="btn btn-default">Submit</button>
-						<div ng-show='submitSuccessMessage'>Booking is confirmed
-							{{bookingId}}</div>
+						<div ng-show='message'>{{message}}{{bookingId.data}}</div>
 					</div>
 				</form>
 
-
-				<form novalidate>
-					<!-- <div >
-						Choose your destination <select ng-change="getHotelsByCity()"
-							ng-options="city as city.name for city in cities track by city.cityId"
-							ng-model="selectedCity"></select>
-					</div> -->
-
-
-				</form>
 			</div>
 		</div>
 	</div>

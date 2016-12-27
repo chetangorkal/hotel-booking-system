@@ -1,11 +1,14 @@
 package com.hname.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Room {
@@ -15,33 +18,14 @@ public class Room {
 	@GeneratedValue
 	private long roomId;
 
-	public Room() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Room(long roomId, String roomType, Hotel hotel) {
-		super();
-		this.roomId = roomId;
-		this.roomType = roomType;
-		this.hotel = hotel;
-	}
-
-	public Room(long roomId, String roomType) {
-		super();
-		this.roomId = roomId;
-		this.roomType = roomType;
-	}
-
-	public Room(long roomId) {
-		super();
-		this.roomId = roomId;
-	}
-
-	/*
-	 * @ManyToOne private Booking booking;
-	 */
 	@Column
 	private String roomType;
+
+	@OneToMany(mappedBy = "room")
+	private Set<RoomBooking> roomBookings;
+	
+	@Column
+	private float pricePerDay;
 
 	@ManyToOne
 	@JoinColumn(name = "hotelId")
@@ -55,11 +39,6 @@ public class Room {
 		this.roomId = roomId;
 	}
 
-	/*
-	 * public Booking getBooking() { return booking; }
-	 * 
-	 * public void setBooking(Booking booking) { this.booking = booking; }
-	 */
 	public String getRoomType() {
 		return roomType;
 	}
@@ -68,11 +47,28 @@ public class Room {
 		this.roomType = roomType;
 	}
 
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name="hotelId") public Hotel getHotel() { return hotel; }
-	 * 
-	 * public void setHotel(Hotel hotel) { this.hotel = hotel; }
-	 */
+	public Set<RoomBooking> getRoomBookings() {
+		return roomBookings;
+	}
+
+	public void setRoomBookings(Set<RoomBooking> roomBookings) {
+		this.roomBookings = roomBookings;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public float getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public void setPricePerDay(float pricePerDay) {
+		this.pricePerDay = pricePerDay;
+	}
+
 }

@@ -16,71 +16,84 @@ hotelBookingApp.controller('HomeController', function($scope) {
 	$scope.info = "information";
 });
 
-hotelBookingApp.controller('BookingController', function($scope, $http, $location) {
+hotelBookingApp.controller('BookingController', function($scope, $http,
+		$location) {
 	$scope.info = "bookingInformation";
+	$scope.bookingDto = {};
 
 	$http({
 		method : 'GET',
 		url : '/hotel-booking-system/booking'
 	}).success(function(data, status, headers, config) {
 		$scope.cities = data;
-		$scope.selectedCity = $scope.cities[0];
+		$scope.bookingDto.selectedCity = $scope.cities[0];
 	}).error(function(data, status, headers, config) {
 	});
 
 	$scope.getHotelsByCity = function() {
-		$http({
-			method : 'GET',
-			url : '/hotel-booking-system/city/' + $scope.selectedCity.cityId,
-		}).success(function(data, status, headers, config) {
-			$scope.hotels = data;
-			$scope.selectedHotel = $scope.hotels[0];
-		}).error(function(data, status, headers, config) {
-		});
-	};
-
-	$scope.getRoomsByHotel = function() {
 		$http(
 				{
 					method : 'GET',
-					url : '/hotel-booking-system/hotel/'
-							+ $scope.selectedHotel.hotelId,
+					url : '/hotel-booking-system/city/'
+							+ $scope.bookingDto.selectedCity.cityId,
 				}).success(function(data, status, headers, config) {
-			$scope.rooms = data;
-			$scope.selectedRoom = $scope.rooms[0];
+			$scope.hotels = data;
+			$scope.bookingDto.selectedHotel = $scope.hotels[0];
 		}).error(function(data, status, headers, config) {
 		});
 	};
 
-	$scope.checkInDate = new Date();
-	$scope.checkInDate.setHours(0, 0, 0, 0);
+	$scope.bookingDto.checkInDate = new Date();
+	$scope.bookingDto.checkInDate.setHours(0, 0, 0, 0);
 
-	$scope.cancelBooking = function(){
+	$scope.cancelBooking = function() {
 		$location.path('/home');
 	}
 	$scope.validateCheckOutDate = function() {
-		if ($scope.checkOutDate < $scope.checkInDate) {
+		if ($scope.bookingDto.checkOutDate < $scope.bookingDto.checkInDate) {
 			$scope.errorMessage = 'Error';
 		}
 	};
 
 	$scope.submitBookingForm = function() {
-		$http({
+		var bookingFormDto = {
+			"bookingId" : 0,
+			"cityId" : $scope.bookingDto.selectedCity.cityId,
+			"hotelId" : $scope.bookingDto.selectedHotel.hotelId,
+			"noOfRooms" : $scope.bookingDto.noOfRooms,
+			"checkInDate" : $scope.bookingDto.checkInDate,
+			"checkOutDate" : $scope.bookingDto.checkOutDate
+		};
+						$http
+								.post('/hotel-booking-system/bookRoom/',
+										bookingFormDto)
+								.then(
+										function(data, status, headers, config) {
+											$scope.message = "Booking Id is "
+												$scope.bookingId = data;
+
+										},
+										function(data, status, headers, config) {
+										});
+		/*$http({
 			method : 'POST',
-			/*
-			 * url : '/hotel-booking-system/' + $scope.selectedCity.cityId + '/' +
-			 * $scope.selectedHotel.HotelId,
-			 */
 			url : '/hotel-booking-system/bookRoom/',
 			params : {
-				roomId : $scope.selectedRoom.roomId
+				"bookingFormDto" : {
+					"bookingId" : 0,
+					"cityId" : $scope.bookingDto.selectedCity.cityId,
+					"hotelId" : $scope.bookingDto.selectedHotel.hotelId,
+					"noOfRooms" : $scope.bookingDto.noOfRooms,
+					"checkInDate" : $scope.bookingDto.checkInDate,
+					"checkOutDate" : $scope.bookingDto.checkOutDate
+				}
 			}
 		}).success(function(data, status, headers, config) {
-			$scope.bookingId = data;
-			
-		}).error(function(data, status, headers, config) {
-		});
+			$scope.message = "Booking confirmed. Booking Id is " + data;
 
-		$scope.submitSuccessMessage = "Form submitted successfully";
+		}).error(function(data, status, headers, config) {
+		});*/
+
+		;
 	}
 });
