@@ -23,6 +23,19 @@ public class Booking {
 	
 	private boolean status;
 	
+	private long bookingAmount;
+
+
+	public Booking(long bookingId) {
+		super();
+		this.bookingId = bookingId;
+	}
+
+	public Booking() {
+		super();
+	}
+
+
 
 	public boolean getStatus() {
 		return status;
@@ -54,6 +67,14 @@ public class Booking {
 
 	public void setNoOfRooms(int noOfRooms) {
 		this.noOfRooms = noOfRooms;
+	}
+
+	public long getBookingAmount() {
+		return bookingAmount;
+	}
+
+	public void setBookingAmount(long bookingAmount) {
+		this.bookingAmount = bookingAmount;
 	}
 
 }

@@ -29,17 +29,8 @@ public class Hotel {
 	@OneToMany(mappedBy = "hotel")
 	private Set<Room> rooms;
 
-	// private Booking booking;
-
-	public Hotel() {
-	}
-
-	public Hotel(int hotelId, String name, String address, String phone) {
-		this.hotelId = hotelId;
-		this.name = name;
-		this.address = address;
-		this.phone = phone;
-	}
+	@Column
+	private long pricePerDayPerRoom;
 
 	public long getHotelId() {
 		return hotelId;
@@ -79,6 +70,14 @@ public class Hotel {
 
 	public void setAvailableRoomsCount(int availableRoomsCount) {
 		this.availableRoomsCount = availableRoomsCount;
+	}
+
+	public long getPricePerDayPerRoom() {
+		return pricePerDayPerRoom;
+	}
+
+	public void setPricePerDayPerRoom(long pricePerDayPerRoom) {
+		this.pricePerDayPerRoom = pricePerDayPerRoom;
 	}
 
 }

@@ -5,10 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Hotel booking management</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="resources/node_modules/angular/angular.js"></script>
+<script src="resources/node_modules/angular-route/angular-route.js"></script>
 <script src="/hotel-booking-system-ui/resources/js/app.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -27,7 +25,7 @@
 				</div>
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#booking">Book a Room</a></li>
-					<li><a href="#home">View Lowest Priced Hotels</a></li>
+					<li><a href="#best_prices">View Lowest Priced Hotels</a></li>
 				</ul>
 			</div>
 			</nav>

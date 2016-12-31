@@ -24,9 +24,6 @@ public class Room {
 	@OneToMany(mappedBy = "room")
 	private Set<RoomBooking> roomBookings;
 	
-	@Column
-	private float pricePerDay;
-
 	@ManyToOne
 	@JoinColumn(name = "hotelId")
 	private Hotel hotel;
@@ -61,14 +58,6 @@ public class Room {
 
 	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
-	}
-
-	public float getPricePerDay() {
-		return pricePerDay;
-	}
-
-	public void setPricePerDay(float pricePerDay) {
-		this.pricePerDay = pricePerDay;
 	}
 
 }

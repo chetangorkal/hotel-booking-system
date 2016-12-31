@@ -1,0 +1,36 @@
+<div>
+	<div class='col-lg-2'></div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">Lowest priced hotels</h3>
+		</div>
+		<div class="panel-body">
+			<div>
+				<div class="form-group well-lg">
+					<label class='col-lg-4'>Choose your destination</label> <select
+						class='col-lg-2' ng-change="getLowestPricedHotelsByCity()"
+						class="form-control"
+						ng-options="city as city.name for city in cities track by city.cityId"
+						ng-model="selectedCity"></select>
+				</div>
+				<div>
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>Hotel name</th>
+							<th>Address</th>
+							<th>Contact</th>
+							<th>Price per day</th>
+						</tr>
+						<tr ng-repeat="hotel in hotels | orderBy : 'pricePerDayPerRoom'">
+							<td>{{hotel.name}}</td>
+							<td>{{hotel.address}}</td>
+							<td>{{hotel.phone}}</td>
+							<td>{{hotel.pricePerDayPerRoom}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

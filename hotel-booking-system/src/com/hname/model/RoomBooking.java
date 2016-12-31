@@ -12,7 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries(@NamedQuery(name = "getAvailableRooms", query = "from RoomBooking rb where rb.hotel.hotelId = :hotelID and rb.checkInDate = :checkIn and rb.checkOutDate = :checkOut"))
+@NamedQueries(@NamedQuery(name = "getAvailableRooms", query = "from RoomBooking rb where rb.hotel.hotelId = :hotelID and rb.checkInDate = :checkIn and rb.checkOutDate = :checkOut and rb.isAvailable = true"))
 public class RoomBooking {
 
 	@Id
@@ -21,7 +21,7 @@ public class RoomBooking {
 	private long roomBookingId;
 
 	@ManyToOne
-	@JoinColumn(name = "bookingId", insertable = false, updatable = false)
+	@JoinColumn(name = "bookingId")
 	private Booking booking;
 
 	@ManyToOne

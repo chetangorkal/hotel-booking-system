@@ -2,11 +2,15 @@ package com.hname.dao.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.transform.Transformers;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 
 import com.hname.dao.BookingDao;
 import com.hname.dto.BookingFormDto;
@@ -19,6 +23,8 @@ import com.hname.model.RoomBooking;
 
 public class BookingDaoImpl implements BookingDao {
 
+	static Logger log = Logger.getLogger(BookingDaoImpl.class.getName());
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -33,19 +39,20 @@ public class BookingDaoImpl implements BookingDao {
 	}
 
 	@Override
-	public long bookRoom(BookingFormDto bookingFormDto) throws RoomsNotAvailableException {
+	public Booking bookRoom(BookingFormDto bookingFormDto) throws RoomsNotAvailableException {
 		session = sessionFactory.openSession();
-		Booking booking = new Booking();
-		booking.setNoOfRooms(bookingFormDto.getNoOfRooms());
-		long id = (long) session.save(booking);
+		session.getTransaction().begin();
 
+		log.debug("Fetching available rooms from DB.");
 		Query query = session.getNamedQuery("getAvailableRooms");
 		query.setParameter("hotelID", bookingFormDto.getHotelId());
 		query.setParameter("checkIn", bookingFormDto.getCheckInDate());
 		query.setParameter("checkOut", bookingFormDto.getCheckOutDate());
 		@SuppressWarnings("unchecked")
 		List<RoomBooking> availableRooms = query.list();
-
+		log.debug("There are rooms available. Found " + availableRooms.size() + " rooms.");
+		Booking booking = new Booking();
+		long bookingId;
 		int noOfRooms = bookingFormDto.getNoOfRooms();
 		if (availableRooms.size() >= noOfRooms) {
 			RoomBooking availableRoom;
@@ -53,48 +60,61 @@ public class BookingDaoImpl implements BookingDao {
 				availableRoom = availableRooms.get(i);
 				availableRoom.setBooking(booking);
 				availableRoom.setAvailable(false);
-				session.update(availableRoom);
+				session.merge(availableRoom);
 			}
+			booking.setNoOfRooms(bookingFormDto.getNoOfRooms());
 			booking.setStatus(true);
-			session.update(booking);
+			Hotel hotel = (Hotel) session.get(Hotel.class, bookingFormDto.getHotelId());
+			booking.setBookingAmount(noOfRooms * hotel.getPricePerDayPerRoom());
+			bookingId = (long) session.save(booking);
 		}
-		return id;
-	}
-
-	private void updateRoomsAvailabilty(long hotelId, int noOfRooms) throws RoomsNotAvailableException {
-		session = sessionFactory.openSession();
-		Hotel hotel = (Hotel) session.get(Hotel.class, hotelId);
-		if (hotel.getAvailableRoomsCount() < noOfRooms) {
-			throw new RoomsNotAvailableException();
-		}
-		hotel.setAvailableRoomsCount(hotel.getAvailableRoomsCount() - noOfRooms);
-		session.save(hotel);
+		session.getTransaction().commit();
+		log.debug("Booking transaction completed succesfully.");
+		return booking;
 	}
 
 	@Override
+	@Cacheable("cities")
 	public List<City> getCities() {
 		session = sessionFactory.openSession();
 		Query query = session.createQuery("from City");
 		List<City> cities = query.list();
+		log.debug("Found " + cities.size() + " cities.");		
 		return cities;
 
 	}
 
 	@Override
+	@Cacheable("hotels")
 	public List<Hotel> getHotelsByCityId(long cityId) {
 		session = sessionFactory.openSession();
 		Query query = session.createQuery("from Hotel where cityId = " + cityId);
 		List<Hotel> hotels = query.list();
+		log.debug("Found " + hotels.size() + " hotels.");
+
 		session.close();
 		return hotels;
 	}
 
-	@Override
+/*	@Override
 	public List<Room> getRoomsByHotelId(long hotelId) {
 		session = sessionFactory.openSession();
 		Query query = session.createQuery("from Room where hotelId = " + hotelId);
 		List<Room> rooms = query.list();
 		session.close();
 		return rooms;
+	}
+*/
+	@Override
+	public List<Hotel> getLowestPriceHotelsByCityId(long cityId) {
+		session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Hotel.class, "hotel");
+		criteria.createAlias("hotel.city", "city");
+		criteria.addOrder(Order.asc("pricePerDayPerRoom"));
+		criteria.setMaxResults(5);
+		criteria.add(Restrictions.and(Restrictions.eq("city.cityId", cityId)));
+		List<Hotel> hotels = criteria.list();
+		session.close();
+		return hotels;
 	}
 }

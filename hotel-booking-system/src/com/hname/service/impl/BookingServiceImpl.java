@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hname.dao.BookingDao;
 import com.hname.dto.BookingFormDto;
 import com.hname.exception.RoomsNotAvailableException;
+import com.hname.model.Booking;
 import com.hname.model.City;
 import com.hname.model.Hotel;
 import com.hname.model.Room;
@@ -27,26 +28,20 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	@Override
-	public long bookRoom(BookingFormDto bookingFormDto) {
+	public Booking bookRoom(BookingFormDto bookingFormDto) {
 		try {
 			return bookingDao.bookRoom(bookingFormDto);
 		} catch (RoomsNotAvailableException e) {
 			e.printStackTrace();
-			return -1;
+			return new Booking(-1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return -2;
+			return new Booking(-2);
 		}
 	}
 
 	@Override
 	public List<City> getCities() {
-		/*List<City> list = new ArrayList<>();
-		list.add(new City(1, "Bengaluru"));
-		list.add(new City(2, "Mysore"));
-		list.add(new City(3, "Hubli"));
-
-		list = bookingDao.getCities();*/
 		return bookingDao.getCities();
 	}
 
@@ -57,10 +52,15 @@ public class BookingServiceImpl implements BookingService {
 		return hotels;
 	}
 
-	@Override
+/*	@Override
 	public List<Room> getRoomsByHotelId(long hotelId) {
 
 		return bookingDao.getRoomsByHotelId(hotelId);
+	}
+*/
+	@Override
+	public List<Hotel> getLowestPriceHotelsByCityId(long cityId) {
+		return bookingDao.getLowestPriceHotelsByCityId(cityId);
 	}
 
 }
